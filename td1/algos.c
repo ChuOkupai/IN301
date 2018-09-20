@@ -11,7 +11,7 @@ void lecture()
 		return;
 	for (int i = 0; i < N; i++)
 		if (fscanf(f, "%d", &T[i]) == EOF)
-			break;
+			T[i] = 0;
 	fclose(f);
 }
 
@@ -50,6 +50,6 @@ int main()
 	lecture();
 	for (c = 0, i = 0; i < N; i++)
 		c = stat_recherche(rand() % MAX);
-	printf("Moyenne comparaisons = %d\n", c / (i - 1));
+	printf("Moyenne comparaisons = %d\n", c / i);
 	return 0;
 }
