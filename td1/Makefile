@@ -1,25 +1,25 @@
 CC=gcc
 CFLAGS=-O3 -Wall -Wextra -Werror
 
-all: clean 07 08-09 10
+all: clean ex07 ex08-09 ex10
 
-07: genere
+ex07: genere
 	./genere
 
 genere: genere.c constantes.h
-	$(CC) $(CFLAGS) -o genere genere.c
+	$(CC) $(CFLAGS) -o $@ $@.c
 
-08-09: algos
+ex08-09: algos
 	./algos
 
 algos: algos.c constantes.h
-	$(CC) $(CFLAGS) -o algos algos.c
+	$(CC) $(CFLAGS) -o $@ $@.c
 
-10: wc-c
+ex10: wc-c
 	./a.out nombres.data
 
-wc-c: wc-c.c
-	$(CC) $(CFLAGS) wc-c.c
+wc-c: wc-c.c constantes.h
+	$(CC) $(CFLAGS) $@.c
 
 clean:
 	rm -f genere algos a.out nombres.data

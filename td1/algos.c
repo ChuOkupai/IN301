@@ -5,51 +5,48 @@ int T[N];
 void lecture()
 {
 	FILE *f = NULL;
+	int i;
 	
+	for (i = 0; i < N; i++)
+		T[i] = 0;
 	f = fopen(NOMFIC, "r");
 	if (! f)
-		return;
-	for (int i = 0; i < N; i++)
+	for (i = 0; i < N; i++)
 		if (fscanf(f, "%d", &T[i]) == EOF)
-			T[i] = 0;
+			break;
 	fclose(f);
 }
 
 int recherche(int x)
 {
-	int c, i;
+	int i = 0;
 	
-	for (c = 0, i = 0; i < N; i++)
-	{
-		c++;
-		if (T[i] == x)
-			break;
-	}
-	printf("comparaisons = %d\n", c);
+	while (i < N && T[i] != x)
+		i++;
+	printf("comparaisons = %d\n", i + 1);
 	return (i < N) ? 1 : 0;
 }
 
 int stat_recherche(int x)
 {
-	int c, i;
+	int i = 0;
 	
-	for (c = 0, i = 0; i < N; i++)
-	{
-		c++;
-		if (T[i] == x)
-			break;
-	}
-	return c;
+	while (i < N && T[i] != x)
+		i++;
+	return i + 1;
 }
 
 int main()
 {
-	int c, i;
+	int c = 0, i = 0;
 	
 	srand(getpid());
 	lecture();
-	for (c = 0, i = 0; i < N; i++)
-		c = stat_recherche(rand() % MAX);
+	while (i < N)
+	{
+		c = stat_recherche(rand() % 5 * MAX);
+		i++;
+	}
 	printf("Moyenne comparaisons = %d\n", c / i);
 	return 0;
 }
