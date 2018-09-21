@@ -7,14 +7,17 @@ void lecture()
 	FILE *f = NULL;
 	int i;
 	
-	for (i = 0; i < N; i++)
-		T[i] = 0;
 	f = fopen(NOMFIC, "r");
-	if (! f)
 	for (i = 0; i < N; i++)
-		if (fscanf(f, "%d", &T[i]) == EOF)
-			break;
-	fclose(f);
+	{
+		if (! f)
+			T[i] = 0;
+		else if (fscanf(f, "%d", &T[i]) == EOF)
+		{
+			fclose(f);
+			f = NULL;
+		}
+	}
 }
 
 int recherche(int x)
