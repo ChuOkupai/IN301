@@ -50,6 +50,8 @@ void	gen_decroissant_tabint(TABINT T, int K)
 void	sup_tabint(TABINT T)
 {
 	free(T.T);
+	T.T = NULL;
+	T.N = 0;
 }
 
 void	aff_tabint(TABINT T)
