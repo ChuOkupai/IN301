@@ -1,14 +1,15 @@
 CC=gcc
 CFLAGS=-O3 -Wall -Wextra -Werror
+LDFLAGS=libmes_types.a
 
 clean:
 	rm -f *.o *.a *.out
 
-ex19: ex19.out
-	./ex19.out
+run: ex19.out
+	./$^
 
-%.out: libmes_types.a %.c
-	$(CC) $(CFLAGS) -o $@ $^ -L. -lmes_types
+ex19.out: libmes_types.a ex19.c
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 libmes_types.a: mes_types.o
 	ar rcs $@ $^

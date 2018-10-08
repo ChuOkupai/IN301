@@ -25,13 +25,7 @@ void	aff_tabint(TABINT T)
 	{
 		printf("%d", T.T[i]);
 		if (i + 1 < T.N)
-		{
-			printf(",");
-			if (i % 10)
-				printf(" ");
-			else if (i > 0)
-				printf("\n");
-		}
+			printf(", ");
 	}
 	printf(".\n");
 }

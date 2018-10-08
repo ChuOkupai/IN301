@@ -8,6 +8,7 @@ int	main(void)
 	T = gen_alea_tabint(10, 1000);
 	if (! T.T)
 		return (1);
+		
 	aff_tabint(T);
 	T = tri_sel_tabint(T);
 	aff_tabint(T);
