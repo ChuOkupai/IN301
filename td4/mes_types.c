@@ -1,5 +1,8 @@
 #include "mes_types.h"
 
+unsigned int	comparaisons = 0;
+unsigned int	echanges	 = 0;
+
 TABINT	gen_alea_tabint(int N, int K)
 {
 	TABINT	T;
@@ -11,7 +14,35 @@ TABINT	gen_alea_tabint(int N, int K)
 	for (int i = 0; i < N; i++)
 		T.T[i] = rand() % K;
 	T.N = N;
-	return T;
+	return (T);
+}
+
+TABINT	gen_croissant_tabint(TABINT T, int K)
+{
+	int	min;
+	
+	min = 0;
+	K = K / T.N;
+	for (int i = 0; i < T.N; i++)
+	{
+		T.T[i] = min + rand() % K;
+		min += K;
+	}
+	return (T);
+}
+
+TABINT	gen_decroissant_tabint(TABINT T, int K)
+{
+	int	min;
+	
+	min = K - K / T.N;
+	K = K - min;
+	for (int i = 0; i < T.N; i++)
+	{
+		T.T[i] = min + rand() % K;
+		min -= K;
+	}
+	return (T);
 }
 
 void	sup_tabint(TABINT T)
@@ -30,35 +61,54 @@ void	aff_tabint(TABINT T)
 	printf(".\n");
 }
 
-int	max_tabint(TABINT T, int deb, int fin)
+TABINT	ech_tabint(TABINT T, int i)
 {
-	int	imax;
+	if (i >= T.N - 1)
+		exit(2);
+	comparaisons++;
+	if (T.T[i] <= T.T[i + 1])
+		return (T);
+	int	tmp;
 	
-	imax = deb;
-	for (int i = deb + 1; i <= fin; i++)
-		if (T.T[i] > T.T[imax])
-			imax = i;
-	return (imax);
+	tmp = T.T[i];
+	T.T[i] = T.T[i + 1];
+	T.T[i + 1] = tmp;
+	echanges++;
+	return (T);
 }
 
-TABINT	ech_tabint(TABINT T, int i, int j)
+TABINT	scan_ech_tabint(TABINT T, int fin)
 {
-	int	k;
-	
-	k = T.T[i];
-	T.T[i] = T.T[j];
-	T.T[j] = k;
-	return T;
+	for (int i = 0; i < fin - 1; i++)
+		T = ech_tabint(T, i);
+	return (T);
 }
 
-TABINT	sel_max_tabint(TABINT T, int fin)
+TABINT	tri_bulle_tabint(TABINT T)
 {
-	return ech_tabint(T, max_tabint(T, 0, fin), fin);
+	for (int i = 0; i < T.N - 1; i++)
+		T = scan_ech_tabint(T, T.N - i);
+	return (T);
 }
 
-TABINT	tri_sel_tabint(TABINT T)
+void	print_comp()
 {
-	for (int i = T.N - 1; i >= 0; i--)
-		sel_max_tabint(T, i);
-	return T;
+	printf("comparaisons = %d\n", comparaisons);
+}
+
+void	print_ech()
+{
+	printf("echanges = %d\n", echanges);
+}
+
+void	print_stats()
+{
+	print_comp();
+	print_ech();
+}
+
+void	reset_stats()
+{
+	comparaisons = 0;
+	echanges = 0;
 }
