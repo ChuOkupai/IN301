@@ -17,8 +17,10 @@ TABINT	gen_alea_tabint(int N, int K)
 	return (T);
 }
 
-TABINT	gen_croissant_tabint(TABINT T, int K)
+void	gen_croissant_tabint(TABINT T, int K)
 {
+	if (! T.T)
+		return;
 	int	min;
 	
 	min = 0;
@@ -28,11 +30,12 @@ TABINT	gen_croissant_tabint(TABINT T, int K)
 		T.T[i] = min + rand() % K;
 		min += K;
 	}
-	return (T);
 }
 
-TABINT	gen_decroissant_tabint(TABINT T, int K)
+void	gen_decroissant_tabint(TABINT T, int K)
 {
+	if (! T.T)
+		return;
 	int	min;
 	
 	min = K - K / T.N;
@@ -42,7 +45,6 @@ TABINT	gen_decroissant_tabint(TABINT T, int K)
 		T.T[i] = min + rand() % K;
 		min -= K;
 	}
-	return (T);
 }
 
 void	sup_tabint(TABINT T)
@@ -56,59 +58,59 @@ void	aff_tabint(TABINT T)
 	{
 		printf("%d", T.T[i]);
 		if (i + 1 < T.N)
-			printf(", ");
+			printf(" ");
 	}
-	printf(".\n");
+	printf("\n");
 }
 
-TABINT	ech_tabint(TABINT T, int i)
+int	ech_tabint(TABINT T, int i)
 {
-	if (i >= T.N - 1)
-		exit(2);
 	comparaisons++;
 	if (T.T[i] <= T.T[i + 1])
-		return (T);
+		return (0);
 	int	tmp;
 	
 	tmp = T.T[i];
 	T.T[i] = T.T[i + 1];
 	T.T[i + 1] = tmp;
 	echanges++;
-	return (T);
+	return (1);
 }
 
-TABINT	scan_ech_tabint(TABINT T, int fin)
+int	scan_ech_tabint(TABINT T, int fin)
 {
+	int	ech;
+	
+	ech = 0;
 	for (int i = 0; i < fin - 1; i++)
-		T = ech_tabint(T, i);
-	return (T);
+		ech = ech_tabint(T, i) || ech;
+	return (ech);
 }
 
-TABINT	tri_bulle_tabint(TABINT T)
+void	tri_bulle_tabint(TABINT T)
 {
-	for (int i = 0; i < T.N - 1; i++)
-		T = scan_ech_tabint(T, T.N - i);
-	return (T);
+	for (int i = T.N; i > 0; i--)
+		if (! scan_ech_tabint(T, i))
+			return;
 }
 
-void	print_comp()
+void	print_comp_ech()
 {
 	printf("comparaisons = %d\n", comparaisons);
-}
-
-void	print_ech()
-{
 	printf("echanges = %d\n", echanges);
 }
 
-void	print_stats()
-{
-	print_comp();
-	print_ech();
-}
-
-void	reset_stats()
+void	reset_comp_ech()
 {
 	comparaisons = 0;
 	echanges = 0;
+}
+
+STAT stat_moy(int N, int A)
+{
+	STAT S;
+	
+	S.nb_moy_comp = N;
+	S.nb_moy_ech = A;
+	return (S);
 }
