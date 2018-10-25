@@ -16,13 +16,13 @@ LISTE*	concat(LISTE *l1, LISTE *l2)
 	return (l1);
 }
 
-LISTE*	fusion(LISTE *l1, LISTE *l2)
+/*LISTE*	fusion(LISTE *l1, LISTE *l2)
 {
 	LISTE *l;
 	
 	if (l1->val < l2->val);
 	return (l1);
-}
+}*/
 
 LISTE*	uniq(LISTE *l)
 {
